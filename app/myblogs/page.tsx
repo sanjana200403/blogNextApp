@@ -29,8 +29,18 @@ export default function MyBlogs() {
   };
 
   useEffect(() => {
+    // Check if user is logged in
+    const token = localStorage.getItem("token");
+    const user = localStorage.getItem("user");
+
+    if (!token || !user) {
+      toast.error("Please login to access your blogs", { position: "top-right" });
+      router.push("/login");
+      return;
+    }
+
     fetchBlogs();
-  }, []);
+  }, [router]);
 
   const handleEdit = (blog: any) => {
     setSelectedBlog(blog);
@@ -60,11 +70,13 @@ export default function MyBlogs() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-10 sm:py-10">
-      {/* Heading */}
-      <h2 className="text-2xl py-4 sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-10 text-center from-orange-600 to-pink-500 ">
-        My Blogs
-      </h2>
+    <>
+      <ToastContainer />
+      <div className="min-h-screen bg-gray-50 px-4 sm:px-6 lg:px-10 sm:py-10">
+        {/* Heading */}
+        <h2 className="text-2xl py-4 sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-10 text-center from-orange-600 to-pink-500 ">
+          My Blogs
+        </h2>
 
       {/* Loading */}
       {loading && (
@@ -137,12 +149,13 @@ export default function MyBlogs() {
         ))}
       </div>
 
-      {/* Modal */}
-      <CreatePostModal
-        open={openModal}
-        onClose={handleCloseModal}
-        blog={selectedBlog}
-      />
-    </div>
+        {/* Modal */}
+        <CreatePostModal
+          open={openModal}
+          onClose={handleCloseModal}
+          blog={selectedBlog}
+        />
+      </div>
+    </>
   );
 }
