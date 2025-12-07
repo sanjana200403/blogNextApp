@@ -111,7 +111,7 @@ export default function CreatePostModal({ open, onClose, blog }: Props) {
     }
 
     if (!author.trim()) {
-      toast.error("Author name is required", { position: "top-right" });
+      toast.error("Author email is required", { position: "top-right" });
       return;
     }
 
@@ -137,9 +137,8 @@ export default function CreatePostModal({ open, onClose, blog }: Props) {
 
     // Validate image URL if provided
     if (image.trim()) {
-      const urlPattern = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
-      if (!urlPattern.test(image.trim())) {
-        toast.error("Please enter a valid image URL", { position: "top-right" });
+      if (!image) {
+        toast.error("Please enter a image URL", { position: "top-right" });
         return;
       }
     }
@@ -185,7 +184,7 @@ export default function CreatePostModal({ open, onClose, blog }: Props) {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50 p-4">
       <div className="bg-white w-full max-w-[650px] max-h-[90vh] overflow-y-auto rounded-xl md:rounded-2xl shadow-xl p-4 sm:p-6 md:p-8 relative">
-        <button onClick={onClose} className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-500 hover:text-black">
+        <button onClick={onClose} className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-500 hover:text-black cursor-pointer">
           <FiX size={20} className="sm:w-[22px] sm:h-[22px]" />
         </button>
 
@@ -193,7 +192,7 @@ export default function CreatePostModal({ open, onClose, blog }: Props) {
           <h2 className="text-xl sm:text-2xl font-semibold">{blog ? "Edit Post" : "Create New Post"}</h2>
           <button
             onClick={generateFullPostByAI}
-            className="px-3 sm:px-4 py-2 bg-blue-500 text-white text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition whitespace-nowrap"
+            className="px-3 sm:px-4 py-2 bg-blue-500 text-white text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition whitespace-nowrap cursor-pointe"
             disabled={loading}
           >
             {loading ? "Generating..." : "Generate by AI"}
@@ -228,7 +227,7 @@ export default function CreatePostModal({ open, onClose, blog }: Props) {
           </div>
           <div>
             <label className="text-xs sm:text-sm font-medium block mb-1">
-              Author <span className="text-red-500">*</span>
+              Author Email <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
@@ -285,7 +284,7 @@ export default function CreatePostModal({ open, onClose, blog }: Props) {
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full mt-5 sm:mt-6 bg-orange-500 hover:bg-orange-600 text-white py-2.5 sm:py-3 rounded-lg sm:rounded-xl shadow disabled:opacity-50 font-medium text-sm sm:text-base"
+          className="w-full mt-5 sm:mt-6 bg-orange-500 hover:bg-orange-600 text-white py-2.5 sm:py-3 rounded-lg sm:rounded-xl shadow disabled:opacity-50 font-medium text-sm sm:text-base cursor-pointe"
         >
           {loading ? "Saving..." : blog ? "Save Changes" : "Publish Post"}
         </button>
