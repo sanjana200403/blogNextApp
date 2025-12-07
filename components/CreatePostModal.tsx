@@ -192,7 +192,7 @@ export default function CreatePostModal({ open, onClose, blog }: Props) {
           <h2 className="text-xl sm:text-2xl font-semibold">{blog ? "Edit Post" : "Create New Post"}</h2>
           <button
             onClick={generateFullPostByAI}
-            className="px-3 sm:px-4 py-2 bg-blue-500 text-white text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition whitespace-nowrap cursor-pointe"
+            className="px-3 sm:px-4 py-2 bg-blue-500 text-white text-sm sm:text-base rounded-lg sm:rounded-xl hover:bg-blue-600 transition whitespace-nowrap cursor-pointer"
             disabled={loading}
           >
             {loading ? "Generating..." : "Generate by AI"}
@@ -284,7 +284,7 @@ export default function CreatePostModal({ open, onClose, blog }: Props) {
         <button
           onClick={handleSubmit}
           disabled={loading}
-          className="w-full mt-5 sm:mt-6 bg-orange-500 hover:bg-orange-600 text-white py-2.5 sm:py-3 rounded-lg sm:rounded-xl shadow disabled:opacity-50 font-medium text-sm sm:text-base cursor-pointe"
+          className="w-full mt-5 sm:mt-6 bg-orange-500 hover:bg-orange-600 text-white py-2.5 sm:py-3 rounded-lg sm:rounded-xl shadow disabled:opacity-50 font-medium text-sm sm:text-base cursor-pointer"
         >
           {loading ? "Saving..." : blog ? "Save Changes" : "Publish Post"}
         </button>
