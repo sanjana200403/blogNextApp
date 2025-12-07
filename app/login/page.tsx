@@ -15,21 +15,24 @@ export default function Login() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    if(form.userEmail==""){
+
+    // Validation
+    if (!form.userEmail?.trim()) {
       toast.error("Email is required", { position: "top-right" });
       return;
     }
-    if(form.password==""){
+    if (!form.password?.trim()) {
       toast.error("Password is required", { position: "top-right" });
       return;
     }
+
     setLoading(true);
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userEmail: form.userEmail.toLocaleLowerCase(),
+          userEmail: form.userEmail.toLowerCase().trim(),
           password: form.password,
         }),
       });
@@ -42,29 +45,32 @@ export default function Login() {
         // Dispatch event to notify Navbar
         window.dispatchEvent(new Event("authChange"));
         toast.success("Login successful!", { position: "top-right" });
-        setTimeout(() => router.push("/"), 1500); // redirect after toast
+        setTimeout(() => router.push("/"), 1500);
       } else {
+        // Handle specific error messages
         toast.error(data.message || "Login failed", { position: "top-right" });
       }
     } catch (err) {
-      toast.error("Something went wrong", { position: "top-right" });
+      toast.error("Something went wrong. Please try again.", { position: "top-right" });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex justify-center pt-20">
+    <div className="flex justify-center pt-20 px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-96 p-8 bg-white/80 backdrop-blur-lg shadow-xl border border-white/20 rounded-2xl flex flex-col gap-5"
+        className="w-full max-w-md p-6 sm:p-8 bg-white/80 backdrop-blur-lg shadow-xl border border-white/20 rounded-2xl flex flex-col gap-5"
       >
-        <h2 className="text-3xl font-bold text-center text-gray-800">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800">
           Welcome Back
         </h2>
 
         <input
           type="email"
           placeholder="Email"
-          className="border p-3 rounded-xl bg-gray-50 focus:ring-2 focus:ring-orange-400 outline-none"
+          className="border p-3 rounded-xl bg-gray-50 focus:ring-2 focus:ring-orange-400 outline-none text-sm sm:text-base"
           value={form.userEmail}
           onChange={(e) => setForm({ ...form, userEmail: e.target.value })}
         />
@@ -72,20 +78,24 @@ export default function Login() {
         <input
           type="password"
           placeholder="Password"
-          className="border p-3 rounded-xl bg-gray-50 focus:ring-2 focus:ring-orange-400 outline-none"
+          className="border p-3 rounded-xl bg-gray-50 focus:ring-2 focus:ring-orange-400 outline-none text-sm sm:text-base"
           value={form.password}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
 
-        <button className="bg-orange-600 hover:bg-orange-700 text-white p-3 rounded-xl shadow transition font-semibold cursor-pointer">
-           {loading ? "Logging in..." : "Login"}
+        <button
+          type="submit"
+          disabled={loading}
+          className="bg-orange-600 hover:bg-orange-700 text-white p-3 rounded-xl shadow transition font-semibold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? "Logging in..." : "Login"}
         </button>
 
         <p
           onClick={() => router.push("/register")}
-          className="text-orange-600 cursor-pointer text-center hover:underline"
+          className="text-orange-600 cursor-pointer text-center hover:underline text-sm sm:text-base"
         >
-          Don’t have an account? Register
+          Don't have an account? Register
         </p>
       </form>
 
