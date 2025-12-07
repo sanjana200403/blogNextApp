@@ -76,7 +76,7 @@ export default function BlogCard({
           <button
             disabled={!canEdit}
             className={`border px-4 py-2 rounded-xl text-gray-600 hover:bg-gray-100 ${
-              !canEdit ? "opacity-40 cursor-not-allowed" : ""
+              !canEdit ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
             }`}
             onClick={onEdit}
           >
@@ -86,7 +86,7 @@ export default function BlogCard({
           <button
             disabled={!canEdit}
             className={`border px-4 py-2 rounded-xl text-gray-600 hover:bg-gray-100 ${
-              !canEdit ? "opacity-40 cursor-not-allowed" : ""
+              !canEdit ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
             }`}
             onClick={onDelete}
           >
