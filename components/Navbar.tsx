@@ -9,8 +9,25 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    // Check user on mount
     const stored = localStorage.getItem("user");
     if (stored) setUser(JSON.parse(stored));
+
+    // Listen for auth changes
+    const handleAuthChange = () => {
+      const stored = localStorage.getItem("user");
+      if (stored) {
+        setUser(JSON.parse(stored));
+      } else {
+        setUser(null);
+      }
+    };
+
+    window.addEventListener("authChange", handleAuthChange);
+
+    return () => {
+      window.removeEventListener("authChange", handleAuthChange);
+    };
   }, []);
 
   const logout = () => {
@@ -18,6 +35,8 @@ export default function Navbar() {
     localStorage.removeItem("user");
     setUser(null);
     setOpen(false);
+    // Dispatch event to notify other components
+    window.dispatchEvent(new Event("authChange"));
     window.location.href = "/login";
   };
 

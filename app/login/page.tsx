@@ -39,6 +39,8 @@ export default function Login() {
       if (res.ok) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("user", JSON.stringify(data.user));
+        // Dispatch event to notify Navbar
+        window.dispatchEvent(new Event("authChange"));
         toast.success("Login successful!", { position: "top-right" });
         setTimeout(() => router.push("/"), 1500); // redirect after toast
       } else {
